@@ -1,8 +1,8 @@
-from alpha_sokoban.input_parsing.read_input_files import get_board
-from alpha_sokoban.finder import find_player_position_from_board
-from alpha_sokoban.constants import MOVES, INVALID_TILE
-from alpha_sokoban.board import board
-from alpha_sokoban.helpers import check_if_valid_move_direction
+from input_parsing.read_input_files import get_board
+from finder import find_player_position_from_board
+from constants import MOVES, INVALID_TILE
+from board import board
+from helpers import check_if_valid_move_direction
 
 
 class alpha_sokoban:
@@ -122,3 +122,53 @@ class alpha_sokoban:
         else:
             print("Error: Unable to make move {}".format(direction))
 
+
+
+
+
+if __name__ == "__main__":
+    path_to_file = '../sample_input_files/sokoban01.txt'
+
+    sokoban = alpha_sokoban(path_to_file)
+
+    sokoban.board.display_board()
+    sokoban.move_player(direction="u")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="u")
+    sokoban.move_player(direction="r")
+    sokoban.move_player(direction="u")
+    sokoban.move_player(direction="u")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="d")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="u")
+    sokoban.move_player(direction="r")
+    sokoban.move_player(direction="r")
+    sokoban.move_player(direction="r")
+    sokoban.move_player(direction="r")
+    sokoban.move_player(direction="d")
+    sokoban.move_player(direction="d")
+    sokoban.move_player(direction="d")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="r")
+    sokoban.move_player(direction="r")
+    sokoban.move_player(direction="u")
+    sokoban.move_player(direction="u")
+    sokoban.move_player(direction="u")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="d")
+    sokoban.move_player(direction="d")
+    sokoban.move_player(direction="d")
+    sokoban.move_player(direction="l")
+    sokoban.move_player(direction="d")
+    sokoban.move_player(direction="r")
+
+    print("Display updated board:")
+    sokoban.board.display_board()
+    print(sokoban.get_player_position())
