@@ -10,8 +10,8 @@ class alpha_sokoban:
         # Step 1) Load Board:
         self.board = board(get_board(file_name=file_path_to_board))
 
-        # Step 2) Find Player Position:
-        self.player_position = self.board.get_index_of_player()
+    def get_player_position(self):
+        return self.board.get_index_of_player()
 
     def check_if_player_can_make_direction_move(self, direction="u") -> bool:
         # Step 1): Check if direction is valid move:
@@ -21,7 +21,7 @@ class alpha_sokoban:
 
         # Step 2): Find new index position if move is made:
         delta_index = MOVES[direction]
-        player_current_position = self.player_position
+        player_current_position = self.get_player_position()
         player_position_after_move = (player_current_position[0] + delta_index[0],
                                       player_current_position[1] + delta_index[1])
 
@@ -40,7 +40,7 @@ class alpha_sokoban:
     def move_player(self, direction="u") -> bool:
         if self.check_if_player_can_make_direction_move(direction=direction):
             delta_index = MOVES[direction]
-            player_current_position = self.player_position
+            player_current_position = self.get_player_position()
             player_position_after_move = (player_current_position[0] + delta_index[0],
                                           player_current_position[1] + delta_index[1])
             box_position_after_move = (player_position_after_move[0] + delta_index[0],

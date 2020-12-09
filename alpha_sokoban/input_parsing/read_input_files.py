@@ -54,4 +54,4 @@ def get_board(file_name):
 
 if __name__ == "__main__":
     path_to_input = "../sample_input_files.sokoban00.txt"
-    make
+    print(get_board(path_to_input))
