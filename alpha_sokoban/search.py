@@ -139,10 +139,16 @@ def get_moves(node):
 if __name__ == "__main__":
     path_to_file = '../sample_input_files/sokoban01.txt'
     sokoban = alpha_sokoban(path_to_file)
+    print("INITIAL STATE")
+    print(sokoban.board.display_board(), '\n')
 
     init_node = Node(state=sokoban, parent=None, action=None, g=0, h=Heuristic(sokoban))
     soln_node = a_star_search(init_node)
-    moves = get_moves(soln_node)
-    for move in moves:
-        sokoban.move_player(move)
-    print(sokoban.board.display_board())
+    if isinstance(soln_node, Node):
+        moves = get_moves(soln_node)
+        print("SOLUTION")
+        print(moves, '\n')
+        for move in moves:
+            sokoban.move_player(move)
+        print("GOAL STATE")
+        print(sokoban.board.display_board())
