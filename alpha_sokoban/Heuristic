@@ -2,7 +2,7 @@ def manhattan_distance1(bx, stg):
     return abs(bx[0] - stg[0]) + abs(bx[1] - stg[1])
 
 def greedy1(boxes,storage):
-    dis = [[manhattan_distance1(bx, stg) for stg in storage] for bx in boxes]
+    dis = [[manhattan_distance(bx, stg) for stg in storage] for bx in boxes]
     a=np.array(dis)
     sol=0
     while a.size>0:
@@ -10,7 +10,7 @@ def greedy1(boxes,storage):
         x=np.where(a == a.min())
         a=np.delete(a,x[0],axis=0)
         a=np.delete(a,x[1],axis=1)
-    return sol    
+    return sol  
 
 
 def Heuristic1(state):
@@ -26,7 +26,7 @@ def Heuristic2(state):
     game_dis = 0
     play_pos =state.get_player_position#?
     if boxes:
-        game_dis = min([manhattan_distance1(bx, play_pos) for bx in boxes]) - 1
+        game_dis = min([manhattan_distance(bx, play_pos) for bx in boxes]) - 1
         if game_dis < 0:
             game_dis = 0
-    return state_dis + game_dis   
+    return state_dist + game_dis 
