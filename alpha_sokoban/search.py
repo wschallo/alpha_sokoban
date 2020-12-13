@@ -1,6 +1,6 @@
 import heapq
 from alpha_sokoban import alpha_sokoban
-from constants import MOVES, ACTION_COST
+from constants import MOVES, ACTION_COST, TABLE_SIZE
 import sys
 import numpy as np
 import copy
@@ -95,7 +95,7 @@ def a_star_search(init_node):
     count = 1
     frontier = [(init_node.get_total_cost(), count, init_node)]
     heapq.heapify(frontier)
-    reached = TranspositionTable(10)
+    reached = TranspositionTable(TABLE_SIZE)
     reached.add(init_node)
 
     while len(frontier) != 0:
@@ -152,3 +152,4 @@ if __name__ == "__main__":
             sokoban.move_player(move)
         print("GOAL STATE")
         print(sokoban.board.display_board())
+        print(sokoban.goal_test())

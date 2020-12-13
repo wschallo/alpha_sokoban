@@ -209,3 +209,4 @@ if __name__ == "__main__":
     print("Display updated board:")
     sokoban.board.display_board()
     print(sokoban.get_player_position())
+    

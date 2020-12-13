@@ -24,6 +24,8 @@ TILE_SYMBOLS = {0: ' ',
                 5: '*',
                 6: '+'}
 
-INVALLID_TILE_SYMBOL = "!"
+INVALID_TILE_SYMBOL = "!"
 
 ACTION_COST = 1
+
+TABLE_SIZE = 10
