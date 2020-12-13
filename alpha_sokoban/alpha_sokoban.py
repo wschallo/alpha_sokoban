@@ -3,17 +3,54 @@ from finder import find_player_position_from_board
 from constants import MOVES, INVALID_TILE
 from board import board
 from helpers import check_if_valid_move_direction
+import numpy as np
 
 
 class alpha_sokoban:
     def __init__(self, file_path_to_board):
         # Step 1) Load Board:
         self.board = board(get_board(file_name=file_path_to_board))
+        _, counts = np.unique(self.board.integer_matrix, return_counts=True)
+        self.num_boxes = counts[2]
 
     def get_player_position(self):
         return self.board.get_index_of_player()
 
-    def check_if_player_can_make_direction_move(self, direction="u") -> bool:
+    def goal_test(self):
+        if len(np.where(self.board.integer_matrix == 5)[0]) == self.num_boxes:
+            return True
+        else:
+            return False
+
+    def get_matrix(self):
+        return self.board.integer_matrix
+
+    def get_boxes(self):
+        boxes = []
+        coord = np.where(self.get_matrix() == 2)
+        rows = coord[0]
+        cols = coord[1]
+        for row,col in zip(rows, cols):
+            boxes.append((row, col))
+        return boxes
+
+    def get_storage(self):
+        storage = []
+        coord = np.where(self.get_matrix() == 3)
+        rows = coord[0]
+        cols = coord[1]
+        for row,col in zip(rows, cols):
+            storage.append((row, col))
+
+        coord = np.where(self.get_matrix() == 6)
+        rows = coord[0]
+        cols = coord[1]
+        for row,col in zip(rows, cols):
+            storage.append((row, col))
+        return storage
+
+
+    def check_if_player_can_make_direction_move(self, direction="U") -> bool:
         # Step 1): Check if direction is valid move:
         if not check_if_valid_move_direction(direction=direction):
             print("Warning: Invalid move encountered: {}".format(direction))
@@ -37,7 +74,7 @@ class alpha_sokoban:
             return False
 
 
-    def move_player(self, direction="u") -> bool:
+    def move_player(self, direction="U") -> bool:
         if self.check_if_player_can_make_direction_move(direction=direction):
             delta_index = MOVES[direction]
             player_current_position = self.get_player_position()
@@ -127,47 +164,47 @@ class alpha_sokoban:
 
 
 if __name__ == "__main__":
-    path_to_file = '../sample_input_files/sokoban01.txt'
+    path_to_file = '../sample_input_files/sokoban00.txt'
 
     sokoban = alpha_sokoban(path_to_file)
 
     sokoban.board.display_board()
-    sokoban.move_player(direction="u")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="u")
-    sokoban.move_player(direction="r")
-    sokoban.move_player(direction="u")
-    sokoban.move_player(direction="u")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="d")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="u")
-    sokoban.move_player(direction="r")
-    sokoban.move_player(direction="r")
-    sokoban.move_player(direction="r")
-    sokoban.move_player(direction="r")
-    sokoban.move_player(direction="d")
-    sokoban.move_player(direction="d")
-    sokoban.move_player(direction="d")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="r")
-    sokoban.move_player(direction="r")
-    sokoban.move_player(direction="u")
-    sokoban.move_player(direction="u")
-    sokoban.move_player(direction="u")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="d")
-    sokoban.move_player(direction="d")
-    sokoban.move_player(direction="d")
-    sokoban.move_player(direction="l")
-    sokoban.move_player(direction="d")
-    sokoban.move_player(direction="r")
+    sokoban.move_player(direction="U")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="U")
+    sokoban.move_player(direction="R")
+    sokoban.move_player(direction="U")
+    sokoban.move_player(direction="U")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="D")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="U")
+    sokoban.move_player(direction="R")
+    sokoban.move_player(direction="R")
+    sokoban.move_player(direction="R")
+    sokoban.move_player(direction="R")
+    sokoban.move_player(direction="D")
+    sokoban.move_player(direction="D")
+    sokoban.move_player(direction="D")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="R")
+    sokoban.move_player(direction="R")
+    sokoban.move_player(direction="U")
+    sokoban.move_player(direction="U")
+    sokoban.move_player(direction="U")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="D")
+    sokoban.move_player(direction="D")
+    sokoban.move_player(direction="D")
+    sokoban.move_player(direction="L")
+    sokoban.move_player(direction="D")
+    sokoban.move_player(direction="R")
 
     print("Display updated board:")
     sokoban.board.display_board()

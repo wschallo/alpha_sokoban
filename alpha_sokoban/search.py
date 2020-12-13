@@ -1,0 +1,148 @@
+import heapq
+from alpha_sokoban import alpha_sokoban
+from constants import MOVES, ACTION_COST
+import sys
+import numpy as np
+import copy
+
+class Node:
+    def __init__(self, state=None, parent=None, action=None, g=None, h=None):
+        self.state = state
+        self.parent = parent
+        self.action = action
+        self.path_cost = g
+        self.heuristic = h
+
+    def get_state(self):
+        return self.state
+
+    def get_parent(self):
+        return self.parent
+
+    def get_action(self):
+        return self.action
+
+    def get_path_cost(self):
+        return self.path_cost
+
+    def get_heuristic(self):
+        return self.heuristic
+
+    def get_total_cost(self):
+        return self.path_cost + self.heuristic
+
+    def __str__(self):
+        return "Node with total cost {}".format(self.get_total_cost())
+
+class TranspositionTable:
+    def __init__(self, size_limit):
+        self.table = []
+        self.size_limit = size_limit
+    
+    def num_elem(self):
+        return len(self.table)
+
+    def add(self, node):
+        if self.num_elem() < self.size_limit:
+            self.table.append(node)
+        else:
+            del self.table[0]
+            self.table.append(node)
+
+    def in_table(self, node):
+        for idx, elem in enumerate(self.table):
+            if np.array_equal(elem.get_state().get_matrix(), node.get_state().get_matrix()):
+                if node.get_total_cost() < elem.get_total_cost():
+                    del self.table[idx]
+                    return False
+                else:
+                    return True
+        return False
+
+
+def manhattan_distance(bx, stg):
+    return abs(bx[0] - stg[0]) + abs(bx[1] - stg[1])
+
+def greedy(boxes, storage):
+    dis_matrix = [[manhattan_distance(bx, stg) for stg in storage] for bx in boxes] #create weighted matrix
+    matched_boxes = []
+    matched_stg = []
+    match_set = []
+    total_distance = 0
+    edges = []
+
+    for i, row in enumerate(dis_matrix):
+        for j, dist in enumerate(row):
+            edges.append((dist, i, j))
+    edges.sort()
+
+    while len(edges) != 0:
+        dist,box,stg = edges.pop(0)
+        if box not in matched_boxes and stg not in matched_stg:
+            total_distance += dist
+            match_set.append((boxes[box], storage[stg]))
+            matched_boxes.append(box)
+            matched_stg.append(stg)
+    return match_set, total_distance
+
+def Heuristic(state):
+    boxes = state.get_boxes()
+    storage = state.get_storage()
+    _, dist = greedy(boxes, storage)
+    return dist
+
+def a_star_search(init_node):
+    count = 1
+    frontier = [(init_node.get_total_cost(), count, init_node)]
+    heapq.heapify(frontier)
+    reached = TranspositionTable(10)
+    reached.add(init_node)
+
+    while len(frontier) != 0:
+        _, _, node = heapq.heappop(frontier)
+
+        child_nodes = expand(node)
+        for child in child_nodes:
+            state = child.get_state()
+            if state.goal_test() == True:
+                return child
+            if reached.in_table(child) == False: # add deadlock check
+                reached.add(child)
+                count += 1
+                heapq.heappush(frontier, (child.get_total_cost(), count, child))
+    
+    return "Search Failed"
+             
+
+def expand(node):
+    child_nodes = []
+    state = node.get_state()
+    for move in MOVES.keys():
+        if state.check_if_player_can_make_direction_move(move) == True:
+            next_state = copy.deepcopy(state)
+            next_state.move_player(move)
+            path_cost = node.get_path_cost() + ACTION_COST
+            heuristic = Heuristic(next_state)
+            child_nodes.append(Node(state=next_state, parent=node, action=move, g=path_cost, h=heuristic))
+    return child_nodes
+
+
+def get_moves(node):
+    moves = []
+    while(node.get_parent() != None):
+        moves.append(node.get_action())
+        node = node.get_parent()
+    moves.reverse()
+    return moves
+
+
+if __name__ == "__main__":
+    path_to_file = '../sample_input_files/sokoban01.txt'
+    sokoban = alpha_sokoban(path_to_file)
+
+    init_node = Node(state=sokoban, parent=None, action=None, g=0, h=Heuristic(sokoban))
+    soln_node = a_star_search(init_node)
+    moves = get_moves(soln_node)
+    for move in moves:
+        sokoban.move_player(move)
+    print(sokoban.board.display_board())

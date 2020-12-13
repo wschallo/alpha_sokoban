@@ -1,8 +1,8 @@
 #mapping of moves to change in index:
-MOVES = {'u': (-1,0),
-         'd': (1,0),
-         'l': (0,-1),
-         'r': (0,1)}
+MOVES = {'U': (-1,0),
+         'D': (1,0),
+         'L': (0,-1),
+         'R': (0,1)}
 
 #mapping of integers to tile types:
 TILE_TYPES = {0: 'open_space',
@@ -26,3 +26,4 @@ TILE_SYMBOLS = {0: ' ',
 
 INVALLID_TILE_SYMBOL = "!"
 
+ACTION_COST = 1

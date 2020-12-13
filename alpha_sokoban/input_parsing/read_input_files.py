@@ -8,7 +8,7 @@ def get_board(file_name):
     3 -> storage
     4 -> player
     5 -> box on storage location
-    6 -> play on storage location
+    6 -> player on storage location
 
     Parameters
     __________
