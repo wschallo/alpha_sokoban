@@ -1,11 +1,12 @@
-from constants import TILE_SYMBOLS, INVALID_TILE_SYMBOL, INVALID_TILE, MOVES, TILE_TYPES
-from finder import find_player_position_from_board
-from helpers import check_if_valid_move_direction
+from alpha_sokoban.constants import TILE_SYMBOLS, INVALID_TILE_SYMBOL, INVALID_TILE, MOVES, TILE_TYPES
+from alpha_sokoban.finder import find_player_position_from_board
+from alpha_sokoban.helpers import check_if_valid_move_direction
 
 class board:
     def __init__(self, board_matrix):
         self.integer_matrix = board_matrix
-        (self.rows, self.cols) = self.integer_matrix.shape
+        self.shape = self.integer_matrix.shape
+        (self.rows, self.cols) = self.shape
 
     def __getitem__(self,key):
         return self.integer_matrix[key]

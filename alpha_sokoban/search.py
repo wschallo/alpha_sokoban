@@ -1,6 +1,6 @@
 import heapq
 from alpha_sokoban import alpha_sokoban
-from constants import MOVES, ACTION_COST, TABLE_SIZE
+from alpha_sokoban.constants import MOVES, ACTION_COST, TABLE_SIZE
 import sys
 import numpy as np
 import copy
