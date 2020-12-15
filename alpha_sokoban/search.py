@@ -1,9 +1,12 @@
 import heapq
-from alpha_sokoban import alpha_sokoban
+# from alpha_sokoban import alpha_sokoban
+import alpha_sokoban
 from constants import MOVES, ACTION_COST, TABLE_SIZE
 import sys
 import numpy as np
 import copy
+import time
+import os
 
 class Node:
     def __init__(self, state=None, parent=None, action=None, g=None, h=None):
@@ -135,21 +138,42 @@ def get_moves(node):
     moves.reverse()
     return moves
 
+def listToString(s):  
+    str1 = " "  
+    return (str1.join(s)) 
 
 if __name__ == "__main__":
-    path_to_file = '../sample_input_files/sokoban01.txt'
-    sokoban = alpha_sokoban(path_to_file)
+    input_dir = '../sokoban_benchmarks/'
+    f = 'sokoban01.txt'
+    path_to_file = os.path.join(input_dir, f)
+    sokoban = alpha_sokoban.alpha_sokoban(path_to_file)
+    print(f)
     print("INITIAL STATE")
     print(sokoban.board.display_board(), '\n')
 
     init_node = Node(state=sokoban, parent=None, action=None, g=0, h=Heuristic(sokoban))
+    start_time = time.time() 
     soln_node = a_star_search(init_node)
+    runtime = time.time() - start_time
     if isinstance(soln_node, Node):
         moves = get_moves(soln_node)
         print("SOLUTION")
-        print(moves, '\n')
+        print(str(len(moves)) + " " + listToString(moves) + "\n")
+        print("RUNTIME")
+        print("{:.3f} sec\n".format(runtime))
+
         for move in moves:
             sokoban.move_player(move)
-        print("GOAL STATE")
-        print(sokoban.board.display_board())
+        print("FINAL STATE")
+        print(sokoban.board.display_board(), '\n')
+        print("REACHED GOAL STATE")
         print(sokoban.goal_test())
+
+
+    # dir = '../sokoban_benchmarks/'
+    # files = os.listdir(dir)
+    # files = [f for f in files if 'sokoban' in f]
+    # files.sort(key=lambda f: f.split('.')[0].split('n')[1])
+
+    # for f in files:
+    #     path_to_file = os.path.join(dir,f)
