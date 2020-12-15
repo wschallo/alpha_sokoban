@@ -56,8 +56,8 @@ class deadlock_detector:
         (bottom_right_i, bottom_right_j) = bottom_right_position
 
         is_top_left_i_in_range = top_left_i >= 0 and top_left_i < self.number_of_rows
-        is_top_left_j_in_range  = top_left_j >= 0 and top_left_j < self.number_of_rows
-        is_bottom_right_i_in_range = bottom_right_i >= 0 and bottom_right_i < self.number_of_cols
+        is_top_left_j_in_range  = top_left_j >= 0 and top_left_j < self.number_of_cols
+        is_bottom_right_i_in_range = bottom_right_i >= 0 and bottom_right_i < self.number_of_rows
         is_bottom_right_j_in_range = bottom_right_j >= 0 and bottom_right_j < self.number_of_cols
 
         return is_top_left_i_in_range and is_top_left_j_in_range and is_bottom_right_i_in_range and is_bottom_right_j_in_range
@@ -98,6 +98,7 @@ class deadlock_detector:
             else:
                 return False
         else:
+            print(region_shape)
             print("Warning: Filter is not (2,2) or (3,3)")
             return False
 
