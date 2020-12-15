@@ -6,6 +6,25 @@ import numpy as np
 import copy
 import time
 import os
+import signal
+
+class TimedOutExc(Exception):
+    pass
+
+def deadline(timeout, *args):
+    def decorate(f):
+        def handler(signum, frame):
+            raise TimedOutExc()
+
+        def new_f(*args):
+            signal.signal(signal.SIGALRM, handler)
+            signal.alarm(timeout)
+            return f(*args)
+            signal.alarm(0)
+
+        new_f.__name__ = f.__name__
+        return new_f
+    return decorate
 
 class Node:
     def __init__(self, state=None, parent=None, action=None, g=None, h=None):
@@ -93,6 +112,7 @@ def Heuristic(state):
     _, dist = greedy(boxes, storage)
     return dist
 
+@deadline(3000)
 def a_star_search(init_node):
     count = 1
     frontier = [(init_node.get_total_cost(), count, init_node)]
@@ -109,7 +129,6 @@ def a_star_search(init_node):
             if state.goal_test() == True:
                 return child
             if reached.in_table(child) == False and state.is_there_a_deadlock() == False:
-            # if reached.in_table(child) == False:
                 reached.add(child)
                 count += 1
                 heapq.heappush(frontier, (child.get_total_cost(), count, child))
@@ -144,7 +163,7 @@ def listToString(s):
 
 if __name__ == "__main__":
     input_dir = '../sokoban_benchmarks/'
-    f = 'sokoban03.txt'
+    f = 'sokoban02.txt'
     path_to_file = os.path.join(input_dir, f)
     sokoban = alpha_sokoban.alpha_sokoban(path_to_file)
     print(f)
