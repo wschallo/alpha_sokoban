@@ -1,6 +1,5 @@
 import heapq
-# from alpha_sokoban import alpha_sokoban
-import alpha_sokoban
+from alpha_sokoban import alpha_sokoban
 from constants import MOVES, ACTION_COST, TABLE_SIZE
 import sys
 import numpy as np
@@ -109,7 +108,7 @@ def a_star_search(init_node):
             state = child.get_state()
             if state.goal_test() == True:
                 return child
-            if reached.in_table(child) == False: # add deadlock check
+            if reached.in_table(child) == False and state.is_there_a_deadlock() == False: # add deadlock check
                 reached.add(child)
                 count += 1
                 heapq.heappush(frontier, (child.get_total_cost(), count, child))
@@ -146,7 +145,7 @@ if __name__ == "__main__":
     input_dir = '../sokoban_benchmarks/'
     f = 'sokoban01.txt'
     path_to_file = os.path.join(input_dir, f)
-    sokoban = alpha_sokoban.alpha_sokoban(path_to_file)
+    sokoban = alpha_sokoban(path_to_file)
     print(f)
     print("INITIAL STATE")
     print(sokoban.board.display_board(), '\n')

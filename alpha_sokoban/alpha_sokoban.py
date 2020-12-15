@@ -3,6 +3,8 @@ from finder import find_player_position_from_board
 from constants import MOVES, INVALID_TILE
 from board import board
 from helpers import check_if_valid_move_direction
+from deadlock_detection import deadlock_detector
+
 import numpy as np
 
 
@@ -12,6 +14,13 @@ class alpha_sokoban:
         self.board = board(get_board(file_name=file_path_to_board))
         _, counts = np.unique(self.board.integer_matrix, return_counts=True)
         self.num_boxes = counts[2]
+
+        #2) Setup deadlock detector:
+        self.deadlock = deadlock_detector(self.board.rows,self.board.cols)
+        self.position_of_focus = (0,0)
+
+    def is_there_a_deadlock(self):
+        return self.deadlock.check_deadlock(self.board.integer_matrix,self.position_of_focus)
 
     def get_player_position(self):
         return self.board.get_index_of_player()
@@ -90,6 +99,7 @@ class alpha_sokoban:
                 if self.board.is_player(player_current_position):
                     self.board.set(player_current_position, 0) #set current to open_space (0)
                     self.board.set(player_position_after_move, 4)  # set after move to player (4)
+
                 ##  Case 1.b: Player is standing on storage (before move):
                 elif self.board.is_player_on_storage(player_current_position):
                     self.board.set(player_current_position, 3) #set current to storage (3)
@@ -152,6 +162,8 @@ class alpha_sokoban:
                     self.board.set(position=player_current_position, value=player_current_position_becomes)
                     self.board.set(position=player_position_after_move, value=player_position_after_move_becomes)
                     self.board.set(position=box_position_after_move, value=box_position_after_move_becomes)
+
+                    self.position_of_focus = box_position_after_move
                 else:
                     print("Warning: Invalid tile type encountered, no move is being made.")
 

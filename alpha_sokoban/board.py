@@ -6,7 +6,8 @@ from search import listToString
 class board:
     def __init__(self, board_matrix):
         self.integer_matrix = board_matrix
-        (self.rows, self.cols) = self.integer_matrix.shape
+        self.shape = self.integer_matrix.shape
+        (self.rows, self.cols) = self.shape
 
     def __getitem__(self,key):
         return self.integer_matrix[key]
