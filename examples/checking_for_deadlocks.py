@@ -1,4 +1,6 @@
-from alpha_sokoban.alpha_sokoban import alpha_sokoban
+import sys
+sys.path.insert(1, '../alpha_sokoban')
+from alpha_sokoban import alpha_sokoban
 
 """
 Example:
