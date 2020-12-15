@@ -167,3 +167,12 @@ if __name__ == "__main__":
         print(sokoban.board.display_board(), '\n')
         print("REACHED GOAL STATE")
         print(sokoban.goal_test())
+
+
+    # dir = '../sokoban_benchmarks/'
+    # files = os.listdir(dir)
+    # files = [f for f in files if 'sokoban' in f]
+    # files.sort(key=lambda f: f.split('.')[0].split('n')[1])
+
+    # for f in files:
+    #     path_to_file = os.path.join(dir,f)

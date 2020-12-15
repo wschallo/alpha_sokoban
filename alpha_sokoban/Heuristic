@@ -1,6 +1,3 @@
-def manhattan_distance1(bx, stg):
-    return abs(bx[0] - stg[0]) + abs(bx[1] - stg[1])
-
 def greedy1(boxes,storage):
     dis = [[manhattan_distance(bx, stg) for stg in storage] for bx in boxes]
     a=np.array(dis)
