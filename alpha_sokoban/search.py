@@ -163,13 +163,12 @@ def listToString(s):
 
 if __name__ == "__main__":
     input_dir = '../sokoban_benchmarks/'
-    f = 'sokoban02.txt'
+    f = 'sokoban01.txt'
     path_to_file = os.path.join(input_dir, f)
     sokoban = alpha_sokoban.alpha_sokoban(path_to_file)
     print(f)
     print("INITIAL STATE")
     print(sokoban.board.display_board(), '\n')
-
     init_node = Node(state=sokoban, parent=None, action=None, g=0, h=Heuristic(sokoban))
     start_time = time.time() 
     soln_node = a_star_search(init_node)
@@ -193,6 +192,27 @@ if __name__ == "__main__":
     # files = os.listdir(dir)
     # files = [f for f in files if 'sokoban' in f]
     # files.sort(key=lambda f: f.split('.')[0].split('n')[1])
-
     # for f in files:
     #     path_to_file = os.path.join(dir,f)
+    #     sokoban = alpha_sokoban.alpha_sokoban(path_to_file)
+    #     print(f)
+    #     print("INITIAL STATE")
+    #     print(sokoban.board.display_board(), '\n')
+
+    #     init_node = Node(state=sokoban, parent=None, action=None, g=0, h=Heuristic(sokoban))
+    #     start_time = time.time() 
+    #     soln_node = a_star_search(init_node)
+    #     runtime = time.time() - start_time
+    #     if isinstance(soln_node, Node):
+    #         moves = get_moves(soln_node)
+    #         print("SOLUTION")
+    #         print(str(len(moves)) + " " + listToString(moves) + "\n")
+    #         print("RUNTIME")
+    #         print("{:.3f} sec\n".format(runtime))
+
+    #         for move in moves:
+    #             sokoban.move_player(move)
+    #         print("FINAL STATE")
+    #         print(sokoban.board.display_board(), '\n')
+    #         print("REACHED GOAL STATE")
+    #         print(sokoban.goal_test())

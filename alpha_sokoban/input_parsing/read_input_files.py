@@ -29,26 +29,32 @@ def get_board(file_name):
         for i in range(1, num_walls * 2 + 1, 2):
             row = int(wall_loc[i]) - 1
             col = int(wall_loc[i + 1]) - 1
-            board[row, col] = '1'
-
-        box_loc = f_contents[2]
-        num_boxes = int(box_loc[0])
-        for i in range(1, num_boxes * 2 + 1, 2):
-            row = int(box_loc[i]) - 1
-            col = int(box_loc[i + 1]) - 1
-            board[row, col] = '2'
+            board[row, col] = 1
 
         storage_loc = f_contents[3]
         num_storage = int(storage_loc[0])
         for i in range(1, num_storage * 2 + 1, 2):
             row = int(storage_loc[i]) - 1
             col = int(storage_loc[i + 1]) - 1
-            board[row, col] = '3'
+            board[row, col] = 3
+
+        box_loc = f_contents[2]
+        num_boxes = int(box_loc[0])
+        for i in range(1, num_boxes * 2 + 1, 2):
+            row = int(box_loc[i]) - 1
+            col = int(box_loc[i + 1]) - 1
+            if board[row, col] == 3:
+                board[row, col] = 5
+            else:
+                board[row, col] = 2
 
         player_loc = f_contents[4]
         row = int(player_loc[0]) - 1
         col = int(player_loc[1]) - 1
-        board[row, col] = '4'
+        if board[row,col] == 3:
+            board[row, col] = 6
+        else:
+            board[row, col] = 4
 
         return board
 
