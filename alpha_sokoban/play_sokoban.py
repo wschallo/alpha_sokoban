@@ -19,10 +19,10 @@ def play_sokoban(path_to_file):
             if sokoban.check_if_player_can_make_direction_move(each_move):
                 valid_moves.append(each_move)
         print("VALID MOVES: {}".format(" ".join(valid_moves)))
-        print("(or type R to reset of Q to quit)")
+        print("(or type N to reset of Q to quit)")
         get_input = input("Command:")
         the_input = get_input.strip().upper()[0]
-        if the_input == "R":
+        if the_input == "N":
             return True
         elif the_input == "Q":
             return False

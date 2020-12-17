@@ -31,5 +31,5 @@
 Once the program has started, the map will be displayed and the valid_moves will be displayed.
 
 * Valid Moves: U D L R (for UP DOWN LEFT RIGHT)
-* If you would like reset the game: enter the command R
+* If you would like reset the game: enter the command N
 * If you would like to exit: enter the command Q
