@@ -112,9 +112,10 @@ def Heuristic(state):
     _, dist = greedy(boxes, storage)
     return dist
 
-@deadline(3000)
+@deadline(3600)
 def a_star_search(init_node):
     count = 1
+    nodes_exp = 0
     frontier = [(init_node.get_total_cost(), count, init_node)]
     heapq.heapify(frontier)
     reached = TranspositionTable(TABLE_SIZE)
@@ -122,18 +123,20 @@ def a_star_search(init_node):
 
     while len(frontier) != 0:
         _, _, node = heapq.heappop(frontier)
+        nodes_exp += 1
 
         child_nodes = expand(node)
         for child in child_nodes:
             state = child.get_state()
             if state.goal_test() == True:
-                return child
+                return child, nodes_exp
             if reached.in_table(child) == False and state.is_there_a_deadlock() == False:
                 reached.add(child)
                 count += 1
                 heapq.heappush(frontier, (child.get_total_cost(), count, child))
     
-    return "Search Failed"
+    fail = "Search Failed"
+    return fail, nodes_exp
              
 
 def expand(node):
@@ -162,9 +165,9 @@ def listToString(s):
     return (str1.join(s)) 
 
 if __name__ == "__main__":
-    # input_dir = '../sokoban_benchmarks/'
-    input_dir = '../Our_Input/'
-    f = 'sokoban03.txt'
+    input_dir = '../sokoban_benchmarks/'
+    # input_dir = '../Our_Input/'
+    f = 'sokoban01.txt'
     path_to_file = os.path.join(input_dir, f)
     sokoban = alpha_sokoban.alpha_sokoban(path_to_file)
     print(f)
@@ -172,7 +175,7 @@ if __name__ == "__main__":
     print(sokoban.board.display_board(), '\n')
     init_node = Node(state=sokoban, parent=None, action=None, g=0, h=Heuristic(sokoban))
     start_time = time.time() 
-    soln_node = a_star_search(init_node)
+    soln_node, nodes_exp = a_star_search(init_node)
     runtime = time.time() - start_time
     if isinstance(soln_node, Node):
         moves = get_moves(soln_node)
@@ -185,6 +188,7 @@ if __name__ == "__main__":
             sokoban.move_player(move)
         print("FINAL STATE")
         print(sokoban.board.display_board(), '\n')
+        print("NODES EXPANDED: ", nodes_exp)
         print("REACHED GOAL STATE")
         print(sokoban.goal_test())
 
