@@ -1,7 +1,6 @@
 from constants import TILE_SYMBOLS, INVALID_TILE_SYMBOL, INVALID_TILE, MOVES, TILE_TYPES
 from finder import find_player_position_from_board
 from helpers import check_if_valid_move_direction
-from search import listToString
 
 class board:
     def __init__(self, board_matrix):
