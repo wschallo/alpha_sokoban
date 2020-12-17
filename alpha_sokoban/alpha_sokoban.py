@@ -12,8 +12,11 @@ class alpha_sokoban:
     def __init__(self, file_path_to_board):
         # Step 1) Load Board:
         self.board = board(get_board(file_name=file_path_to_board))
-        _, counts = np.unique(self.board.integer_matrix, return_counts=True)
-        self.num_boxes = counts[2]
+        self.num_boxes = 0
+        vals, counts = np.unique(self.board.integer_matrix, return_counts=True)
+        for val, count in zip(vals,counts):
+            if val == 2 or val == 5:
+                self.num_boxes += counts[val]
 
         #2) Setup deadlock detector:
         self.deadlock = deadlock_detector(self.board.rows,self.board.cols)
