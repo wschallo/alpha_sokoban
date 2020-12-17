@@ -1,0 +1,36 @@
+#s="###\n#@#\n#$#\n#.#\n###"
+#s="########\n#. #   #\n#  $   #\n#   # ##\n## # $.#\n#   $  #\n#  .# @#\n########"
+s="########\n#  .# .#\n# $   @#\n# $$## #\n#     .#\n########"
+
+
+
+
+print(s)
+
+
+p='@'
+w='#'
+s1='.'
+s2='+'
+s3='*'
+b='$'
+c=(len(s)-s.count('\n'))//(s.count('\n')+1)
+r=s.count('\n')+1
+x2=[]
+x3=[]
+x4=[]
+x5=[]
+for pos, char in enumerate(s):
+    if char == w:
+        x2.extend([pos//(c+1)+1,pos%(c+1)+1])        
+    if char == b:
+        x3.extend([pos//(c+1)+1,pos%(c+1)+1])        
+    if char == s1 or char==s2 or char==s3:
+        x4.extend([pos//(c+1)+1,pos%(c+1)+1])        
+    if char == p:
+        x5.extend([pos//(c+1)+1,pos%(c+1)+1])        
+print(c,r)
+print(len(x2)//2,*x2)
+print(len(x3)//2,*x3)
+print(len(x4)//2,*x4)
+print(*x5)
