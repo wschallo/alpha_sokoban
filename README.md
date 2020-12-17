@@ -33,3 +33,4 @@ Once the program has started, the map will be displayed and the valid_moves will
 * Valid Moves: U D L R (for UP DOWN LEFT RIGHT)
 * If you would like reset the game: enter the command N
 * If you would like to exit: enter the command Q
+* Additional Symbols: * means a box on a storage location, and + means a player is standing on a storage location.
