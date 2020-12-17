@@ -1,4 +1,4 @@
-from constants import DEADLOCK_FILTER_2_BY_2, DEADLOCK_FILTER_3_BY_3_1_BOX, DEADLOCK_FILTER_3_BY_3_2_BOX, DEADLOCK_FILTER_3_BY_3_3_BOX, DEADLOCK_FILTER_3_BY_3_4_BOX, DEADLOCK_FILTER_3_BY_3_5_BOX
+from alpha_sokoban.constants import DEADLOCK_FILTER_2_BY_2, DEADLOCK_FILTER_3_BY_3_1_BOX, DEADLOCK_FILTER_3_BY_3_2_BOX, DEADLOCK_FILTER_3_BY_3_3_BOX, DEADLOCK_FILTER_3_BY_3_4_BOX, DEADLOCK_FILTER_3_BY_3_5_BOX
 import numpy as np
 import copy
 
@@ -56,8 +56,8 @@ class deadlock_detector:
         (bottom_right_i, bottom_right_j) = bottom_right_position
 
         is_top_left_i_in_range = top_left_i >= 0 and top_left_i < self.number_of_rows
-        is_top_left_j_in_range  = top_left_j >= 0 and top_left_j < self.number_of_rows
-        is_bottom_right_i_in_range = bottom_right_i >= 0 and bottom_right_i < self.number_of_cols
+        is_top_left_j_in_range  = top_left_j >= 0 and top_left_j < self.number_of_cols
+        is_bottom_right_i_in_range = bottom_right_i >= 0 and bottom_right_i < self.number_of_rows
         is_bottom_right_j_in_range = bottom_right_j >= 0 and bottom_right_j < self.number_of_cols
 
         return is_top_left_i_in_range and is_top_left_j_in_range and is_bottom_right_i_in_range and is_bottom_right_j_in_range
@@ -98,7 +98,7 @@ class deadlock_detector:
             else:
                 return False
         else:
-            print("Warning: Filter is not (2,2) or (3,3)")
+            print("Warning: Filter is not (2,2) or (3,3), got {}".format(region_shape))
             return False
 
         for each_permutation in permutations_of_region:
@@ -192,6 +192,7 @@ class deadlock_detector:
         """
 
         (i,j) = position_of_focus #this should be where the crate was pushed to
+        #print(position_of_focus)
 
         #Check 1: 2x2 where position_of_focus is bottom_right
         if self.is_filter_area_in_board((i-1,j-1),(i,j)) and self.check_region_of_board_for_deadlock(board,(i-1,j-1),(i,j)):
