@@ -8,6 +8,8 @@ import time
 import os
 import signal
 
+NODES_EXP = 0
+
 class TimedOutExc(Exception):
     pass
 
@@ -114,8 +116,9 @@ def Heuristic(state):
 
 @deadline(3600)
 def a_star_search(init_node):
+    global NODES_EXP
+
     count = 1
-    nodes_exp = 0
     frontier = [(init_node.get_total_cost(), count, init_node)]
     heapq.heapify(frontier)
     reached = TranspositionTable(TABLE_SIZE)
@@ -123,20 +126,20 @@ def a_star_search(init_node):
 
     while len(frontier) != 0:
         _, _, node = heapq.heappop(frontier)
-        nodes_exp += 1
+        NODES_EXP += 1
 
         child_nodes = expand(node)
         for child in child_nodes:
             state = child.get_state()
             if state.goal_test() == True:
-                return child, nodes_exp
+                return child, NODES_EXP
             if reached.in_table(child) == False and state.is_there_a_deadlock() == False:
                 reached.add(child)
                 count += 1
                 heapq.heappush(frontier, (child.get_total_cost(), count, child))
     
     fail = "Search Failed"
-    return fail, nodes_exp
+    return fail, NODES_EXP
              
 
 def expand(node):
@@ -174,24 +177,27 @@ if __name__ == "__main__":
     print("INITIAL STATE")
     print(sokoban.board.display_board(), '\n')
     init_node = Node(state=sokoban, parent=None, action=None, g=0, h=Heuristic(sokoban))
-    start_time = time.time() 
-    soln_node, nodes_exp = a_star_search(init_node)
-    runtime = time.time() - start_time
-    if isinstance(soln_node, Node):
-        moves = get_moves(soln_node)
-        print("SOLUTION")
-        print(str(len(moves)) + " " + listToString(moves) + "\n")
-        print("RUNTIME")
-        print("{:.3f} sec\n".format(runtime))
+    start_time = time.time()
+    try:
+        soln_node, nodes_exp = a_star_search(init_node)
+        runtime = time.time() - start_time
+        if isinstance(soln_node, Node):
+            moves = get_moves(soln_node)
+            print("SOLUTION")
+            print(str(len(moves)) + " " + listToString(moves) + "\n")
+            print("RUNTIME")
+            print("{:.3f} sec\n".format(runtime))
 
-        for move in moves:
-            sokoban.move_player(move)
-        print("FINAL STATE")
-        print(sokoban.board.display_board(), '\n')
-        print("NODES EXPANDED: ", nodes_exp)
-        print("REACHED GOAL STATE")
-        print(sokoban.goal_test())
-
+            for move in moves:
+                sokoban.move_player(move)
+            print("FINAL STATE")
+            print(sokoban.board.display_board(), '\n')
+            print("NODES EXPANDED: ", nodes_exp)
+            print("REACHED GOAL STATE")
+            print(sokoban.goal_test())
+    except TimedOutExc:
+        print("Timed out")
+        print("Nodes expanded: {}".format(NODES_EXP))
 
     # dir = '../sokoban_benchmarks/'
     # files = os.listdir(dir)
