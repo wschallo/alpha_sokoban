@@ -2,6 +2,7 @@
 
 ### 1. Requirements:
 1) Python
+2) Linux (or run on Windows using [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10))
 
 ## 2. Instructions for TA/ Grader/ Prof.:
 1) Unzip the folder containning our code.
@@ -17,8 +18,9 @@
 
 ## 3. Notes:
 * Depending on your version of python, you may have to use the command `python` or `python3`
-* Our code was tested (and able to run on the following OS's): Windows, Ubuntu
-* Other OS may work but it has not been tested
+* Our code was tested (and is able to run) on Ubuntu
+* Our code should be able to run on other flavors of Linux, but there is a known issue on Windows that can cause issues (our time out uses SIGALARM which is not supported on Windows).
+* You can run it on WSL.
 
 ## 4. How to play sokoban yourself:
 ##### NOTE: This is for demonstration purposes, and does not utilize A*. If you would like to solve a sokoban map using A* please refer to section 2.
