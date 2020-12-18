@@ -10,7 +10,7 @@ if __name__ == "__main__":
             sokoban = alpha_sokoban(path_to_file)
             init_node = Node(state=sokoban, parent=None, action=None, g=0, h=Heuristic(sokoban))
 
-            soln_node = a_star_search(init_node)
+            soln_node, nodes_exp = a_star_search(init_node)
 
             if isinstance(soln_node, Node):
                 moves = get_moves(soln_node)

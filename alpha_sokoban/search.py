@@ -170,7 +170,7 @@ def listToString(s):
 if __name__ == "__main__":
     input_dir = '../sokoban_benchmarks/'
     # input_dir = '../Our_Input/'
-    f = 'sokoban01.txt'
+    f = 'sokoban07b.txt'
     path_to_file = os.path.join(input_dir, f)
     sokoban = alpha_sokoban.alpha_sokoban(path_to_file)
     print(f)
